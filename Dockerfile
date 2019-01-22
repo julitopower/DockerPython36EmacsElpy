@@ -6,6 +6,7 @@ MAINTAINER Julio Delgado <julio.delgadomangas@gmail.com>
 ENV TERM xterm-256color
 ENV HOME /root
 ENV PATH ${PATH}:/root/.local/bin
+ENV MYPYPATH /opt/src/stubs/
 
 RUN echo "deb http://ftp.de.debian.org/debian testing main" >> /etc/apt/sources.list \
     apt-get clean && apt-get update && apt-get -t testing install -y python3.6 \
@@ -22,5 +23,6 @@ COPY emacs.d ${HOME}/.emacs.d
 RUN rm -rf ${HOME}/.emacs && emacs --batch -l ${HOME}/.emacs.d/init.el
 
 RUN python3.6 -m pip install --user jedi mypy numpy pydantic
+COPY stubs ${MYPYPATH}
 
 WORKDIR /opt/src/
